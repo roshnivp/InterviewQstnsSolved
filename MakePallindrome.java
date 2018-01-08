@@ -1,85 +1,91 @@
-package PracticeQstns; /**
- * Created by Roshni Velluva Puthanidam on 6/30/16.
+package HackerRank;
+
+/**
+ * Created by Roshni Velluva Puthanidam on 01/03/17.
  */
 
+import java.io.*;
 import java.util.*;
+import java.text.*;
+import java.math.*;
+import java.util.regex.*;
 
 public class MakePallindrome {
-    private static String makePalindromeOfAll(String string) {
-        String palindromeString = "";
 
-        if (string.isEmpty()) {
-            return null;
-        }
-
-        return makePalindrome(string);
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        int n = in.nextInt();
+        int k = in.nextInt();
+        String number = in.next();
+        String res = makePallindrome(number, k);
+        System.out.println(res);
     }
 
-
-    public static String makePalindrome(String string) {
-        if (string.length() == 1) {
-            return string;
-        }
-
-        char[] characters = string.toCharArray();
-        Arrays.sort(characters);
-        StringBuffer startString = new StringBuffer();
-        StringBuffer endString = new StringBuffer();
-        int uniqueCharacterCount = 0;
-        int oddCharacterIndex = 0;
-
-        if (characters.length % 2 == 0) {
-            for (int i = 0; i < characters.length; i += 2) {
-                if (characters[i] != characters[i + 1]) {
-                    return null; // not a palindrome
-                }
-                startString.append(characters[i]);
-                endString.append(characters[i + 1]);
-            }
-            return startString.append(endString.reverse()).toString();
+    static String makePallindrome(String num, int rem) {
+        int mid;
+        int count = 0;
+        String temp = num;
+        String number;
+        int n = temp.length();
+        if (temp.length() % 2 == 0) {
+            mid = n / 2;
         } else {
-            for (int i = 0; i < characters.length; i += 2) {
-                if (characters[i] != characters[i + 1]) {
-                    oddCharacterIndex = i;
+            mid = n / 2 + 1;
+        }
 
-                    i--;
-                    uniqueCharacterCount++;
-                } else {
-                    startString.append(characters[i]);
-                    endString.append(characters[i + 1]);
-                }
-                if (uniqueCharacterCount > 1) {
-                    return null;
+        for (int i = 0; i < mid; i++) {
+            //    int var =mid;
+            if (temp.charAt(i) != temp.charAt(n - 1 - i)) {
+                count++;
+
+            }
+
+        }
+
+        rem -= count;
+        String res = temp;
+        if (rem < 0) res = ("-1");
+        else {
+            for (int i = 0; i < n / 2; i++) {
+                int x = Integer.parseInt(String.valueOf(res.charAt(i)));
+                int y = Integer.parseInt(String.valueOf(res.charAt(n - 1 - i)));
+                String new_val = String.valueOf(Math.max(x, y));
+                char val = new_val.charAt(0);
+                if ((res.charAt(i) != res.charAt(n - 1 - i)) && count > 0) {
+                    if (rem > 0) {
+
+                        if (val != '9') {
+                            res = res.substring(0, i) + '9' + res.substring(i + 1);
+                            res = res.substring(0, n - 1 - i) + '9' + res.substring(n - 1 - i + 1);
+                            count--;
+                            //count--;
+                            rem--;
+                            // rem--;
+                        } else {
+                            res = res.substring(0, i) + '9' + res.substring(i + 1);
+                            res = res.substring(0, n - 1 - i) + '9' + res.substring(n - 1 - i + 1);
+                            count--;
+                            // rem--;
+
+                        }
+                    } else {
+
+                        res = res.substring(0, i) + val + res.substring(i + 1);
+                        res = res.substring(0, n - 1 - i) + val + res.substring(n - 1 - i + 1);
+                        // System.out.println(res);
+                        count--;
+                    }
+                } else if (rem >= 2) {
+                    if (val != '9') {
+                        res = res.substring(0, i) + '9' + res.substring(i + 1);
+                        res = res.substring(0, n - 1 - i) + '9' + res.substring(n - 1 - i + 1);
+                        rem -= 2;
+                    }
                 }
             }
         }
 
-        //now, make a palindrome string
-        StringBuilder sb = new StringBuilder();
-        sb.append(startString);
-        sb.append(String.valueOf(characters[oddCharacterIndex]));
-        sb.append(endString.reverse());
-        return sb.toString();
-    }
-
-
-    public static void main(String args[]) throws Exception {
-        Scanner scanner = new Scanner(System.in);
-//        String[] arr={"aavvddffggsrs","aavdffggsrs","ddffsscch"};
-//        for(int i=0;i<arr.length;i++){
-//            String newString = makePalindromeOfAll(arr[i]);
-//            System.out.println(newString);
-//        }
-        List<String> stringList = new ArrayList<>();
-        int i = 0;
-        while (i < 3) {
-            System.out.print("Enter string: ");
-            stringList.add(scanner.next());
-            i++;
-        }
-        for (int j = 0; j < 3; j++) {
-            String newString = makePalindromeOfAll(stringList.get(j));
-            System.out.println(newString);
-        }
+        if ((n % 2 != 0) && (rem > 0)) res = res.substring(0, n / 2) + '9' + res.substring(n / 2 + 1);
+        return res;
     }
 }

@@ -1,59 +1,57 @@
-package PracticeQstns; /**
- * Created by Roshni Velluva Puthanidam on 7/1/16.
+package HackerRank;
+import java.io.*;
+import java.util.*;
+import java.text.*;
+import java.math.*;
+import java.util.regex.*;
+/**
+ * Created by Roshni Velluva Puthanidam on 21/07/16.
  */
-
-import java.util.Stack;
-
 public class StackOperation {
+    public static void main(String[] args) {
+        /* Enter your code here. Read input from STDIN. Print output to STDOUT. Your class should be named matrixZero. */
 
-    public int Solution(String s) {
+        Stack<Integer> st = new Stack<Integer>();
+        Stack<Integer> track = new Stack<Integer>();
 
+        Scanner in = new Scanner(System.in);
+        int n = in.nextInt();
+        int max = Integer.MIN_VALUE;
 
-        Stack<Integer> st = new Stack<>();
-        //int d= Integer.parseInt(s);
-        String[] arr1 = s.split(" ");
-        //System.out.println(s);
-        for (int i = 0; i < arr1.length; i++){
+        for (int arr_i = 0; arr_i <n; arr_i++)
+        {
+            int command=in.nextInt();
+            if (command == 1) {
+                int numToPush = in.nextInt();//THE NUMBER AFTER THE COMMAND ONE
+                st.push(numToPush);
+                if (max <= numToPush) {
+                    max = numToPush;
+                    track.push(max);
+                }
 
-            if(isInteger(arr1[i])){
-                st.push(Integer.parseInt(arr1[i]));
+            }
+            else if (command==2) {
+                int poppedItem = st.pop();
+                //IN THIS CASE WE ARE REMOVING THE ELEMENT PRESENT AT THE TOP OF THE STACK
+                if (poppedItem == track.peek()) {
+                    track.pop();
+//                    if (track.size() > 0) {
+//                        max = track.peek();
+//                    } else {
+//                        max = Integer.MIN_VALUE;
+//                    }
+                }
+            }
+            else if (command==3){
 
-            } else if (arr1[i].equalsIgnoreCase("pop")) {
-                st.pop();
-            } else if (arr1[i].equalsIgnoreCase("dup")) {
-                int y = st.peek();
-                st.push(y);
-            } else if (arr1[i].equalsIgnoreCase("+")) {
-                int y = st.peek();
-                st.pop();
-                int z = st.peek();
-                st.push(y + z);
-            } else if (arr1[i].equalsIgnoreCase("_")) {
-                int y = st.peek();
-                st.pop();
-                int z = st.peek();
-                st.push(z - y);
+                System.out.println( track.peek());
             }
 
-        }
-        return st.peek();
+            }
 
     }
-    public boolean isInteger(String a ) {
-        try {
-            Integer.parseInt(a);
-            return true;
-        } catch (Exception e) {
-            return false;
-        }
-    }
-    public static void main(String[] args){
-        StackOperation ss=new StackOperation();
-        String arr="13 15 17 20 40 10 pop dup 100 +  -";
 
-        int x=ss.Solution(arr);
 
-        System.out.println(x);
 
-    }
+
 }
